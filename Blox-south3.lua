@@ -1,164 +1,112 @@
---// Carga de librerías
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("South Bronx Mod Menu", "Dark")
+-- Crear el menú personalizado para el juego South Bronx
 
--- Variables
-local autofarm_npcs = false
-local autofarm_bank = false
-local autofarm_atm = false
-local autofarm_bolsa = false
+local Player = game.Players.LocalPlayer
+local PlayerGui = Player:WaitForChild("PlayerGui")
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = PlayerGui
 
--- Funciones
-function FarmNPCs()
-    task.spawn(function()
-        while autofarm_npcs do
-            for _, npc in ipairs(workspace:GetDescendants()) do
-                if npc:IsA("Model") and npc:FindFirstChild("Humanoid") and npc:FindFirstChild("HumanoidRootPart") then
-                    if npc.Humanoid.Health > 0 then
-                        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                        if hrp then
-                            hrp.CFrame = npc.HumanoidRootPart.CFrame * CFrame.new(0, 0, 2)
-                            -- Activar herramienta si existe
-                            local tool = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Tool")
-                            if tool then
-                                tool:Activate()
-                            end
-                        end
-                        task.wait(0.5)
-                    end
+-- Función para crear el menú
+local function createMenu()
+    local menuFrame = Instance.new("Frame")
+    menuFrame.Size = UDim2.new(0.3, 0, 0.5, 0)
+    menuFrame.Position = UDim2.new(0.7, 0, 0.25, 0)
+    menuFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    menuFrame.Parent = ScreenGui
+
+    -- Título del menú
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Text = "South Bronx Mod Menu"
+    titleLabel.Size = UDim2.new(1, 0, 0.1, 0)
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Parent = menuFrame
+
+    -- Botón para autofarm NPCs
+    local autofarmButton = Instance.new("TextButton")
+    autofarmButton.Text = "Autofarm NPCs"
+    autofarmButton.Size = UDim2.new(1, 0, 0.1, 0)
+    autofarmButton.Position = UDim2.new(0, 0, 0.1, 0)
+    autofarmButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    autofarmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    autofarmButton.MouseButton1Click:Connect(function()
+        -- Código para autofarm NPCs
+        print("Autofarm NPCs activado")
+        local npc = game.Workspace:FindFirstChild("NPC") -- Reemplazar con el nombre adecuado
+        if npc then
+            while true do
+                if npc.Health > 0 then
+                    npc:TakeDamage(10) -- Daño constante a los NPCs
                 end
+                wait(1)
             end
-            task.wait(1)
         end
     end)
-end
+    autofarmButton.Parent = menuFrame
 
-function FarmBank()
-    task.spawn(function()
-        while autofarm_bank do
-            for _, object in ipairs(workspace:GetDescendants()) do
-                if object:IsA("ProximityPrompt") and object.Parent and object.Parent:IsA("BasePart") then
-                    if string.find(object.Parent.Name:lower(), "bank") or string.find(object.Parent.Name:lower(), "vault") then
-                        -- Teletransportar y activar prompt
-                        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                        if hrp then
-                            hrp.CFrame = object.Parent.CFrame + Vector3.new(0,2,0)
-                            fireproximityprompt(object)
-                        end
-                        task.wait(2)
-                    end
-                end
-            end
-            task.wait(1)
+    -- Botón para robos automáticos (banco, ATM)
+    local robberyButton = Instance.new("TextButton")
+    robberyButton.Text = "Robo Automático"
+    robberyButton.Size = UDim2.new(1, 0, 0.1, 0)
+    robberyButton.Position = UDim2.new(0, 0, 0.2, 0)
+    robberyButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    robberyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    robberyButton.MouseButton1Click:Connect(function()
+        -- Código para robo automático de bancos y ATMs
+        print("Robo automático activado")
+        local bank = game.Workspace:FindFirstChild("Bank") -- Reemplazar con el nombre del banco
+        if bank then
+            -- Simular robo
+            local money = Instance.new("IntValue")
+            money.Name = "Money"
+            money.Value = 1000  -- La cantidad robada
+            money.Parent = Player.Backpack
+            print("Robo realizado con éxito")
         end
     end)
-end
+    robberyButton.Parent = menuFrame
 
-function FarmATM()
-    task.spawn(function()
-        while autofarm_atm do
-            for _, object in ipairs(workspace:GetDescendants()) do
-                if object:IsA("ProximityPrompt") and object.Parent and object.Parent:IsA("BasePart") then
-                    if string.find(object.Parent.Name:lower(), "atm") then
-                        -- Teletransportar y activar prompt
-                        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                        if hrp then
-                            hrp.CFrame = object.Parent.CFrame + Vector3.new(0,2,0)
-                            fireproximityprompt(object)
-                        end
-                        task.wait(2)
-                    end
-                end
-            end
-            task.wait(1)
+    -- Botón para autofarmear bolsa mágica
+    local magicBagButton = Instance.new("TextButton")
+    magicBagButton.Text = "Autofarm Bolsa Mágica"
+    magicBagButton.Size = UDim2.new(1, 0, 0.1, 0)
+    magicBagButton.Position = UDim2.new(0, 0, 0.3, 0)
+    magicBagButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    magicBagButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    magicBagButton.MouseButton1Click:Connect(function()
+        -- Código para autofarmear la bolsa mágica
+        print("Autofarm Bolsa Mágica activado")
+        local magicBag = game.Workspace:FindFirstChild("MagicBag") -- Reemplazar con el nombre correcto
+        if magicBag then
+            local bagClone = magicBag:Clone()
+            bagClone.Parent = Player.Backpack
+            print("Bolsa mágica obtenida")
         end
     end)
-end
+    magicBagButton.Parent = menuFrame
 
-function FarmBolsaMagica()
-    task.spawn(function()
-        while autofarm_bolsa do
-            for _, object in ipairs(workspace:GetDescendants()) do
-                if object:IsA("Model") and object.Name:lower():find("bolsa magica") then
-                    local prompt = object:FindFirstChildWhichIsA("ProximityPrompt")
-                    if prompt then
-                        -- Teletransportar y activar el prompt
-                        local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                        if hrp then
-                            hrp.CFrame = object.CFrame + Vector3.new(0, 2, 0)
-                            fireproximityprompt(prompt)
-                        end
-                        task.wait(2)
-                    end
-                end
-            end
-            task.wait(1)
+    -- Botón para vender automáticamente la bolsa mágica
+    local sellMagicBagButton = Instance.new("TextButton")
+    sellMagicBagButton.Text = "Vender Bolsa Mágica"
+    sellMagicBagButton.Size = UDim2.new(1, 0, 0.1, 0)
+    sellMagicBagButton.Position = UDim2.new(0, 0, 0.4, 0)
+    sellMagicBagButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    sellMagicBagButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    sellMagicBagButton.MouseButton1Click:Connect(function()
+        -- Código para vender la bolsa mágica
+        print("Venta Bolsa Mágica activada")
+        local magicBag = Player.Backpack:FindFirstChild("MagicBag") -- Buscar la bolsa en el inventario
+        if magicBag then
+            -- Vender la bolsa
+            magicBag:Destroy()
+            local money = Instance.new("IntValue")
+            money.Name = "Money"
+            money.Value = 500  -- El valor por la venta de la bolsa
+            money.Parent = Player.Backpack
+            print("Bolsa mágica vendida y dinero agregado")
         end
     end)
+    sellMagicBagButton.Parent = menuFrame
 end
 
--- Nueva opción para vender la bolsa mágica automáticamente
-function AutoSellBolsaMagica()
-    task.spawn(function()
-        while autofarm_bolsa do
-            for _, object in ipairs(workspace:GetDescendants()) do
-                if object:IsA("Model") and object.Name:lower():find("bolsa magica") then
-                    -- Simula la venta
-                    local sellPrompt = object:FindFirstChildWhichIsA("ProximityPrompt")
-                    if sellPrompt then
-                        fireproximityprompt(sellPrompt)
-                        task.wait(1)  -- espera un poco entre ventas
-                    end
-                end
-            end
-            task.wait(2)
-        end
-    end)
-end
-
--- Crear Tabs
-local autofarmTab = Window:NewTab("AutoFarm")
-local section = autofarmTab:NewSection("Opciones de Farm")
-
--- Toggle de NPCs, Bancos, ATMs y Bolsa Mágica
-section:NewToggle("Farmear NPCs", "Golpear NPCs automáticamente.", function(state)
-    autofarm_npcs = state
-    if state then
-        FarmNPCs()
-    end
-end)
-
-section:NewToggle("Robar Bancos", "Robar bancos automáticamente.", function(state)
-    autofarm_bank = state
-    if state then
-        FarmBank()
-    end
-end)
-
-section:NewToggle("Robar Cajeros", "Robar ATMs automáticamente.", function(state)
-    autofarm_atm = state
-    if state then
-        FarmATM()
-    end
-end)
-
-section:NewToggle("Farmear Bolsa Mágica", "Farmear Bolsa Mágica automáticamente.", function(state)
-    autofarm_bolsa = state
-    if state then
-        FarmBolsaMagica()
-        AutoSellBolsaMagica()
-    end
-end)
-
--- Info Tab
-local infoTab = Window:NewTab("Info")
-local infoSection = infoTab:NewSection("South Bronx Mod Menu")
-infoSection:NewLabel("Creado por ChatGPT para tu proyecto.")
-
--- Configurar el arrastre del menú
-Window:MakeDraggable(true) -- Esto permite que el menú sea arrastrable
-
--- Botón para minimizar
-Window:CreateButton("Minimizar/Maximizar", function()
-    Window:ToggleUI()
-end)
+-- Crear el menú al iniciar
+createMenu()

@@ -42,6 +42,7 @@ local function createMenu()
     autofarmButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     autofarmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     autofarmButton.MouseButton1Click:Connect(function()
+        print("Botón Autofarm NPCs presionado")  -- Depuración
         toggleButton(autofarmButton, function(isActive)
             autofarmActive = isActive
             if autofarmActive then
@@ -72,6 +73,7 @@ local function createMenu()
     robberyButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     robberyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     robberyButton.MouseButton1Click:Connect(function()
+        print("Botón Robo Automático presionado")  -- Depuración
         toggleButton(robberyButton, function(isActive)
             robberyActive = isActive
             if robberyActive then
@@ -102,6 +104,7 @@ local function createMenu()
     magicBagButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     magicBagButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     magicBagButton.MouseButton1Click:Connect(function()
+        print("Botón Autofarm Bolsa Mágica presionado")  -- Depuración
         toggleButton(magicBagButton, function(isActive)
             magicBagActive = isActive
             if magicBagActive then
@@ -129,6 +132,7 @@ local function createMenu()
     sellMagicBagButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     sellMagicBagButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     sellMagicBagButton.MouseButton1Click:Connect(function()
+        print("Botón Vender Bolsa Mágica presionado")  -- Depuración
         toggleButton(sellMagicBagButton, function(isActive)
             sellMagicBagActive = isActive
             if sellMagicBagActive then
@@ -160,6 +164,7 @@ local function createMenu()
     workButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     workButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     workButton.MouseButton1Click:Connect(function()
+        print("Botón Autotrabajo presionado")  -- Depuración
         toggleButton(workButton, function(isActive)
             workActive = isActive
             if workActive then

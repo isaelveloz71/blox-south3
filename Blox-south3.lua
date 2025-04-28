@@ -150,6 +150,41 @@ local function createMenu()
         end)
     end)
     sellMagicBagButton.Parent = menuFrame
+
+    -- Botón para autotrabajo (ganar dinero trabajando)
+    local workActive = false
+    local workButton = Instance.new("TextButton")
+    workButton.Text = "Autotrabajo"
+    workButton.Size = UDim2.new(1, 0, 0.1, 0)
+    workButton.Position = UDim2.new(0, 0, 0.5, 0)
+    workButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    workButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    workButton.MouseButton1Click:Connect(function()
+        toggleButton(workButton, function(isActive)
+            workActive = isActive
+            if workActive then
+                -- Iniciar el autotrabajo
+                print("Autotrabajo activado")
+                while workActive do
+                    -- Simular el trabajo (p.ej., recoger un objeto y entregarlo)
+                    local item = game.Workspace:FindFirstChild("WorkItem") -- Reemplazar con el nombre del item de trabajo
+                    if item then
+                        -- Recolectar el item y darle dinero al jugador
+                        local money = Instance.new("IntValue")
+                        money.Name = "Money"
+                        money.Value = 50  -- Dinero ganado por trabajo
+                        money.Parent = Player.Backpack
+                        item:Destroy()  -- Eliminar el item tras ser recogido
+                        print("Dinero ganado por trabajo")
+                    end
+                    wait(5)  -- Esperar 5 segundos antes de la siguiente tarea
+                end
+            else
+                print("Autotrabajo desactivado")
+            end
+        end)
+    end)
+    workButton.Parent = menuFrame
 end
 
 -- Crear el menú al iniciar
